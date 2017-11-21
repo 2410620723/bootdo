@@ -20,14 +20,8 @@ import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-
-import com.bootdo.common.domain.ScheduleJob;
-import com.bootdo.common.quartz.factory.*;
-import com.bootdo.common.utils.SpringContextHolder;;
+import com.bootdo.common.domain.ScheduleJob;;
 
 /**
  * 
@@ -59,6 +53,7 @@ public class QuartzManager {
 			// 创建jobDetail实例，绑定Job实现类
 			// 指明job的名称，所在组的名称，以及绑定job类
 
+			@SuppressWarnings("unchecked")
 			Class<? extends Job> jobClass = (Class<? extends Job>) (Class.forName(job.getBeanClass()).newInstance()
 					.getClass());
 			JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity(job.getJobName(), job.getJobGroup())// 任务名称和组构成任务key

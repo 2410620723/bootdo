@@ -10,7 +10,6 @@ import com.bootdo.common.domain.PageDO;
 import com.bootdo.common.service.LogService;
 import com.bootdo.common.utils.Query;
 
-@SuppressWarnings("AlibabaRemoveCommentedCode")
 @Service
 public class LogServiceImpl implements LogService {
 	@Autowired
