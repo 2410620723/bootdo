@@ -27,4 +27,5 @@ public interface NotifyRecordService {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+	public int batchRead(Long[] ids);
 }

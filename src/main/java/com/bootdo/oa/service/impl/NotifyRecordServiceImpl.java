@@ -2,6 +2,7 @@ package com.bootdo.oa.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,12 @@ public class NotifyRecordServiceImpl implements NotifyRecordService {
 	@Override
 	public int batchRemove(Long[] ids){
 		return notifyRecordDao.batchRemove(ids);
+	}
+
+	@Transactional
+	@Override
+	public int batchRead(Long[] ids) {
+		return notifyRecordDao.batchRead(ids);
 	}
 	
 }

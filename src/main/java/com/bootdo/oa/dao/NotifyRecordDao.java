@@ -38,4 +38,5 @@ public interface NotifyRecordDao {
 	int removeByNotifbyId(Long notifyId);
 
 	int batchRemoveByNotifbyId(Long[] notifyIds);
+	int batchRead(Long[] notifyIds);
 }

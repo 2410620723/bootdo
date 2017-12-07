@@ -6,6 +6,8 @@ import com.bootdo.common.utils.PageUtils;
 import com.bootdo.common.utils.Query;
 import com.bootdo.common.utils.R;
 import com.bootdo.oa.domain.NotifyDO;
+import com.bootdo.oa.domain.NotifyRecordDO;
+import com.bootdo.oa.service.NotifyRecordService;
 import com.bootdo.oa.service.NotifyService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ import java.util.Map;
 public class NotifyController extends BaseController {
 	@Autowired
 	private NotifyService notifyService;
+	
+	@Autowired
+	private NotifyRecordService notifyRecordService;
 
 	@GetMapping()
 	@RequiresPermissions("oa:notify:notify")
@@ -151,8 +156,26 @@ public class NotifyController extends BaseController {
 	@GetMapping("/read/{id}")
 	@RequiresPermissions("oa:notify:edit")
 	String read(@PathVariable("id") Long id, Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("notifyId", id);
 		NotifyDO notify = notifyService.get(id);
+		// 置为已读
+		List<NotifyRecordDO> notifyRecord = notifyRecordService.list(map);
+		for (NotifyRecordDO record : notifyRecord) {
+			record.setIsRead(1);
+			notifyRecordService.update(record);
+		}
 		model.addAttribute("notify", notify);
 		return "oa/notify/read";
+	}
+	
+	@ResponseBody
+	@PostMapping("/batchRead")
+	public R batchRead(@RequestParam("ids[]") Long[] ids){
+		if (ids.length <= 0) {
+			return R.error();
+		}
+		notifyRecordService.batchRead(ids);
+		return R.ok();
 	}
 }

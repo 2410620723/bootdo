@@ -129,4 +129,12 @@
 			#{id}
 		</foreach>
 	</delete>
+	
+	<update id="batchRead">
+	    update oa_notify_record set is_read = 1 where notify_id in
+	    <foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
 </mapper>
